@@ -30,6 +30,6 @@ def generateDocxFromDict(docxDict):
     for topic_number, topic_details in docxDict.items():
         doc.add_heading(topic_details["heading"])
         doc_para = doc.add_paragraph(topic_details["paragraph"])
-    doc.save('testDataFromLLM.docx')
+    doc.save('./Desktop/testDataFromLLM.docx')
 
 generateDocxFromDict(docxDict)
