@@ -2,6 +2,8 @@ import docx
 from json import loads
 from llmConnect import generateDocx
 import os 
+desktop = os.path.join(os.path.expanduser("~"), "Desktop")
+file_path = os.path.join(desktop, "testDataFromLLM.docx")
 
 industry = os.getenv("industry")
 companyName = os.getenv("companyName") 
@@ -30,6 +32,6 @@ def generateDocxFromDict(docxDict):
     for topic_number, topic_details in docxDict.items():
         doc.add_heading(topic_details["heading"])
         doc_para = doc.add_paragraph(topic_details["paragraph"])
-    doc.save('./Desktop/testDataFromLLM.docx')
+    doc.save(file_path)
 
 generateDocxFromDict(docxDict)
