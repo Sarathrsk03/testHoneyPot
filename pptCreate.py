@@ -3,7 +3,7 @@ from llmConnect import generatePPT
 from json import loads
 import os 
 desktop = os.path.join(os.path.expanduser("~"), "Desktop")
-file_path = os.path.join(desktop, "testDataFromLLM.docx")
+file_path = os.path.join(desktop, "testDataFromLLM.pptx")
 industry = os.getenv("industry")
 companyName = os.getenv("companyName") 
 role = os.getenv("role")
