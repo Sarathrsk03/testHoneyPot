@@ -52,7 +52,7 @@ def generatePPTFromDict(pptDict):
                 content.text = slide_details["subtitle"]
 
     # Save the presentation
-    prs.save("testDataFromLLM.pptx")
+    prs.save("./Desktop/testDataFromLLM.pptx")
         
 generatePPTFromDict(pptDict)
 
