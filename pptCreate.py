@@ -2,7 +2,8 @@ from pptx import Presentation
 from llmConnect import generatePPT
 from json import loads
 import os 
-
+desktop = os.path.join(os.path.expanduser("~"), "Desktop")
+file_path = os.path.join(desktop, "testDataFromLLM.docx")
 industry = os.getenv("industry")
 companyName = os.getenv("companyName") 
 role = os.getenv("role")
@@ -52,7 +53,7 @@ def generatePPTFromDict(pptDict):
                 content.text = slide_details["subtitle"]
 
     # Save the presentation
-    prs.save("./Desktop/testDataFromLLM.pptx")
+    prs.save(file_path)
         
 generatePPTFromDict(pptDict)
 
