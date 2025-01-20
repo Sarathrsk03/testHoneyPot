@@ -1,6 +1,12 @@
 from pptx import Presentation
 from llmConnect import generatePPT
 from json import loads
+import os 
+
+industry = os.getenv("industry")
+companyName = os.getenv("companyName") 
+role = os.getenv("role")
+
 
 def generateSamplePPT():
     # Create a presentation object
