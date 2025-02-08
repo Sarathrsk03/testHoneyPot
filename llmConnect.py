@@ -13,6 +13,13 @@ def readSystemInstruction(type:str ):
     elif type == "docx":
         with open("systemInstructions/docx.txt", "r") as f:
             return f.read()
+    elif type == "prompt":
+        with open("systemInstructions/promptCreate.txt", "r") as f:
+            return f.read()
+    elif type == "xlsx":    
+        with open("systemInstructions/xlsx.txt", "r") as f:
+            return f.read() 
+
 
 load_dotenv()
 
@@ -61,10 +68,29 @@ def generateDocx(prompt: str):
 
     return response.text
 
+def generatePrompt(prompt: str):
+    response = client.models.generate_content(
+        model='gemini-2.0-flash-exp', contents=prompt,
+        config=types.GenerateContentConfig(system_instruction=readSystemInstruction("prompt"),response_mime_type='application/json',temperature=0)
+    )
+    return response.text
+
+
+def generateXLSX(prompt: str):
+    response = client.models.generate_content(
+        model='gemini-2.0-flash-exp', contents=prompt,
+        config=types.GenerateContentConfig(system_instruction=readSystemInstruction("xlsx"),response_mime_type='application/json',temperature=0)
+    )
+    return response.text
+
+
+
 #generatePPT()
 #generateDocx()
 
 if __name__ == "__main__":
-    prompt = "Create a Word Document which showcases the company goals for the upcoming year. Comapny name is XYZ, it is an IT service company"
+    prompt = "Company name: Apple, Role: COO, Industry: Technology"
     #generatePPT()
-    print(generateDocx(prompt))
+    #print(generateDocx(prompt))
+    print(generatePrompt(prompt))
+    
