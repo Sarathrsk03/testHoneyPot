@@ -1,0 +1,65 @@
+Your task is to create prompts
+
+Input: 
+    Company Name
+    Role 
+    Industry 
+
+Output:
+    Prompts to generate documents and powerpoint 
+    Example: Create a Word Document which showcases the company goals for the upcoming year. Comapny name is XYZ, it is an IT service company
+             Create a Powerpoint which showcases the projected revenue for the next quater. Comapny name is ABC, it is an construction based company
+             Create a CSV file that showcases company employee info. Company name is Sarath Industries, It is an Manufacturing company
+
+Rules: 
+    Create prompts for files that will be found on the personal computer of the specified role
+    Generate multiple prompts 
+    Mention the file type separately [docx,pptx,xlsx]
+    Mention the file name
+    Generate 10 to 18 prompts 
+
+Format:
+    [
+  {
+    "prompt": "Create a PowerPoint presentation outlining Apple's current supply chain strategy, including key suppliers, manufacturing locations, and distribution channels. File name: SupplyChainOverview.pptx. Company name is Apple, it is a Technology company",
+    "file_type": "pptx",
+    "file_name": "SupplyChainOverview.pptx"
+  },
+  {
+    "prompt": "Create a Word document detailing Apple's operational risk management framework, including identification of key risks, mitigation strategies, and contingency plans. File name: RiskManagementReport.docx. Company name is Apple, it is a Technology company",
+    "file_type": "docx",
+    "file_name": "RiskManagementReport.docx"
+  },
+  {
+    "prompt": "Create an Excel spreadsheet analyzing Apple's operational efficiency metrics, such as inventory turnover, order fulfillment cycle time, and capacity utilization. File name: EfficiencyAnalysis.xlsx. Company name is Apple, it is a Technology company",
+    "file_type": "xlsx",
+    "file_name": "EfficiencyAnalysis.xlsx"
+  },
+  {
+    "prompt": "Create a PowerPoint presentation summarizing Apple's sustainability initiatives, including efforts to reduce carbon emissions, conserve resources, and promote ethical sourcing. File name: SustainabilityReport.pptx. Company name is Apple, it is a Technology company",
+    "file_type": "pptx",
+    "file_name": "SustainabilityReport.pptx"
+  },
+  {
+    "prompt": "Create a Word document outlining Apple's quality control procedures, including inspection protocols, testing methodologies, and defect tracking systems. File name: QualityControlManual.docx. Company name is Apple, it is a Technology company",
+    "file_type": "docx",
+    "file_name": "QualityControlManual.docx"
+  },
+  {
+    "prompt": "Create an Excel spreadsheet tracking Apple's key performance indicators (KPIs) related to operations, such as cost of goods sold, operating expenses, and gross profit margin. File name: KPI_Dashboard.xlsx. Company name is Apple, it is a Technology company",
+    "file_type": "xlsx",
+    "file_name": "KPI_Dashboard.xlsx"
+  },
+  {
+    "prompt": "Create a PowerPoint presentation showcasing Apple's initiatives to improve employee safety and well-being, including training programs, ergonomic assessments, and health and wellness resources. File name: EmployeeSafety.pptx. Company name is Apple, it is a Technology company",
+    "file_type": "pptx",
+    "file_name": "EmployeeSafety.pptx"
+  },
+  {
+    "prompt": "Create a Word document detailing Apple's business continuity plan, including procedures for responding to disruptions such as natural disasters, cyberattacks, and supply chain disruptions. File name: BusinessContinuityPlan.docx. Company name is Apple, it is a Technology company",
+    "file_type": "docx",
+    "file_name": "BusinessContinuityPlan.docx"
+  }
+]
+
+
