@@ -1,13 +1,6 @@
 import docx 
 from json import loads
 from llmConnect import generateDocx
-import os 
-desktop = os.path.join(os.path.expanduser("~"), "Desktop")
-file_path = os.path.join(desktop, "testDataFromLLM.docx")
-
-industry = os.getenv("industry")
-companyName = os.getenv("companyName") 
-role = os.getenv("role")
 
 def generateSampleDocx():
     doc = docx.Document()
@@ -18,20 +11,21 @@ def generateSampleDocx():
 
 
 
-try: 
-    prompt = f"Create a Word Document which showcases the company heirarchy. Comapny name is {companyName}, it is an {industry} company"
-    docxDict = loads(generateDocx(prompt))
-    print(docxDict)
-    print(type(docxDict))
-except Exception as e:
-    print("Hit an exception")
-    print(e)
-
-def generateDocxFromDict(docxDict):
+def generateDocxFromDict(docxDict,file_name="testDataFromLLM.docx"):
     doc = docx.Document()
     for topic_number, topic_details in docxDict.items():
         doc.add_heading(topic_details["heading"])
         doc_para = doc.add_paragraph(topic_details["paragraph"])
-    doc.save(file_path)
+    doc.save(file_name)
 
-generateDocxFromDict(docxDict)
+
+if __name__ == "__main__":
+    try: 
+        prompt = "Create a Word Document which showcases the company heirarchy. Comapny name is XYZ, it is an IT service company"
+        docxDict = loads(generateDocx(prompt))
+        print(docxDict)
+        print(type(docxDict))
+    except Exception as e:
+        print("Hit an exception")
+        print(e)
+    generateDocxFromDict(docxDict)
