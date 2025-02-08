@@ -23,7 +23,7 @@ def createPrompts(companyName: str, industry: str, role: str) -> list:
     return loads(responseStr)
 
 if __name__ == "__main__":
-    prompts = createPrompts("VIT University","Education","University")
+    prompts = createPrompts(companyName,industry,role)
     sleep(15)
     #print(ans)
     #print(type(ans))
