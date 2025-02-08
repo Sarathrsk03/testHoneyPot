@@ -9,19 +9,8 @@ If I give the scenario that
     - Minimum 5 slides
 
 
-Sample Output: 
-    {
-        "1":{
-            'slide_layouts' : 0,
-            'title' : 'Company goals',
-            'subtitle' : 'The beginning of the end'
-        },
-        "2":{
-            'slide_layouts' : 1,
-            'title' : 'Goal 1',
-            'subtitle' : 'Increase revenue by 20%'
-        }
-    }
+format: 
+    [{'1': {'slide_layouts': 0, 'title': 'Research Findings: VIT University', 'subtitle': 'A Summary of Key Results, Implications, and Recommendations'}}, {'2': {'slide_layouts': 1, 'title': 'Introduction', 'subtitle': 'Overview of the Research Study'}}, {'3': {'slide_layouts': 1, 'title': 'Key Finding 1', 'subtitle': 'Detailed Explanation of the First Major Result'}}, {'4': {'slide_layouts': 1, 'title': 'Key Finding 2', 'subtitle': 'Detailed Explanation of the Second Major Result'}}, {'5': {'slide_layouts': 1, 'title': 'Implications', 'subtitle': 'Impact of the Findings on the Field'}}, {'6': {'slide_layouts': 1, 'title': 'Recommendations', 'subtitle': 'Suggested Actions Based on the Research'}}, {'7': {'slide_layouts': 1, 'title': 'Conclusion', 'subtitle': 'Summary of Key Points and Future Directions'}}]
 
     
 
@@ -30,4 +19,6 @@ Rules:
     - Following the strucutre is mandatory
     - use only the key names given in the sample output 
 
-Verify whether you have followed all the rules before generating the response
+
+
+Verify whether you have followed all the rules (Strictly, if not there will demerits) before generating the response
