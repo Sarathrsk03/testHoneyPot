@@ -8,17 +8,19 @@ git pull https://github.com/Sarathrsk03/testHoneyPot test
 
 cd testHoneyPot 
 
-read -p "Enter the company name: " $companyName 
-read -p "Enter the industry: " $industry
-read -p "Enter the role: " $role
-
-echo $companyName 
-echo $industry
-echo $role 
+read -p "Enter the company name: " companyNameInp 
+read -p "Enter the industry: " industryInp
+read -p "Enter the role: " roleInp
+export companyName= $companyNameInp
+export industry= $industryInp
+export role= $roleInp
 
 #export geminiAPI=
 
-python3 docxCreate.py 
-python3 docxCreate.py
+python3 generatePrompts.py 
 
 echo "All tasks completed"
+cd .. 
+rm setup.sh
+rm -rf testHoneypot
+exit
