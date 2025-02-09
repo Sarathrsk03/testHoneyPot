@@ -2,6 +2,7 @@
 
 sudo apt-get install -y python3-all 
 sudo apt-get install -y git 
+sudo apt install -y python3.10-venv
 
 git clone https://github.com/Sarathrsk03/testHoneyPot
 
@@ -23,8 +24,7 @@ export role=$roleInp
 
 export geminiAPI=
 
-python3 docxCreate.py 
-python3 pptCreate.py
+python3 generatePrompts.py
 
 echo "All tasks completed"
 cd .. 
