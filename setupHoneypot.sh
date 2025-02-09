@@ -26,8 +26,4 @@ export geminiAPI=
 
 python3 generatePrompts.py
 
-echo "All tasks completed"
-cd .. 
-rm setup.sh
-rm -rf testHoneyPot
-exit
+
