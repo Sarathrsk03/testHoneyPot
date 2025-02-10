@@ -1,0 +1,172 @@
+# Directory structure:
+# /opt/honeypot/
+#   - setup.sh
+#   - monitor.py
+#   - log_reader.py
+#   - service/
+#     - honeypot-monitor.service
+
+# File: setup.sh
+#!/bin/bash
+# Save as /opt/honeypot/setup.sh
+
+mkdir -p /var/log/honeypot
+chmod 750 /var/log/honeypot
+
+# Install required packages
+apt-get update
+apt-get install -y python3-pip auditd inotify-tools
+pip3 install inotify_simple
+
+# Copy service file
+cp service/honeypot-monitor.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable honeypot-monitor
+systemctl start honeypot-monitor
+
+# Configure audit rules
+cat >> /etc/audit/rules.d/audit.rules << EOL
+-w /etc/passwd -p wa -k user_modify
+-w /etc/shadow -p wa -k user_modify
+-w /etc/sudoers -p wa -k sudo_modify
+-w /var/log -p wa -k log_changes
+-w /bin -p wa -k binary_changes
+-w /usr/bin -p wa -k binary_changes
+-a always,exit -F arch=b64 -S execve -k exec_calls
+EOL
+
+service auditd restart
+
+# File: monitor.py
+#!/usr/bin/env python3
+# Save as /opt/honeypot/monitor.py
+
+import os
+import time
+import json
+from datetime import datetime
+from inotify_simple import INotify, flags
+import subprocess
+
+class HoneypotMonitor:
+    def __init__(self, log_dir="/var/log/honeypot"):
+        self.log_dir = log_dir
+        self.inotify = INotify()
+        self.watches = {}
+        self.setup_watches()
+
+    def setup_watches(self):
+        watch_paths = ["/etc", "/var/www", "/home", "/bin", "/usr/bin"]
+        watch_flags = flags.CREATE | flags.DELETE | flags.MODIFY | flags.OPEN | flags.CLOSE_WRITE
+        
+        for path in watch_paths:
+            if os.path.exists(path):
+                wd = self.inotify.add_watch(path, watch_flags)
+                self.watches[wd] = path
+
+    def log_event(self, event_type, details):
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        log_entry = {
+            'timestamp': timestamp,
+            'type': event_type,
+            'details': details
+        }
+        
+        with open(f"{self.log_dir}/events.log", 'a') as f:
+            f.write(json.dumps(log_entry) + '\n')
+
+    def monitor(self):
+        while True:
+            for event in self.inotify.read(timeout=1000):
+                path = os.path.join(self.watches[event.wd], event.name)
+                event_flags = [str(flag) for flag in flags.from_mask(event.mask)]
+                
+                self.log_event('file_access', {
+                    'path': path,
+                    'flags': event_flags,
+                    'user': subprocess.getoutput('whoami')
+                })
+            
+            time.sleep(0.1)
+
+if __name__ == "__main__":
+    monitor = HoneypotMonitor()
+    monitor.monitor()
+
+# File: log_reader.py
+#!/usr/bin/env python3
+# Save as /opt/honeypot/log_reader.py
+
+import json
+import os
+from datetime import datetime, timedelta
+
+class LogReader:
+    def __init__(self, log_dir="/var/log/honeypot"):
+        self.log_dir = log_dir
+
+    def read_events(self, hours_ago=24):
+        events = []
+        cutoff = datetime.now() - timedelta(hours=hours_ago)
+        
+        try:
+            with open(f"{self.log_dir}/events.log", 'r') as f:
+                for line in f:
+                    event = json.loads(line.strip())
+                    event_time = datetime.strptime(event['timestamp'], 
+                                                 '%Y-%m-%d %H:%M:%S')
+                    if event_time >= cutoff:
+                        events.append(event)
+        except FileNotFoundError:
+            print("No events logged yet")
+            
+        return events
+
+    def analyze_events(self, hours_ago=24):
+        events = self.read_events(hours_ago)
+        
+        analysis = {
+            'total_events': len(events),
+            'event_types': {},
+            'accessed_files': set(),
+            'suspicious_activity': []
+        }
+        
+        for event in events:
+            # Count event types
+            event_type = event['type']
+            analysis['event_types'][event_type] = \
+                analysis['event_types'].get(event_type, 0) + 1
+            
+            # Track accessed files
+            if 'path' in event['details']:
+                analysis['accessed_files'].add(event['details']['path'])
+            
+            # Flag suspicious activity
+            if event_type == 'file_access' and \
+               any(f in event['details']['flags'] for f in ['DELETE', 'MODIFY']):
+                analysis['suspicious_activity'].append(event)
+        
+        analysis['accessed_files'] = list(analysis['accessed_files'])
+        return analysis
+
+if __name__ == "__main__":
+    reader = LogReader()
+    analysis = reader.analyze_events()
+    print(json.dumps(analysis, indent=2))
+
+# File: honeypot-monitor.service
+# Save as /opt/honeypot/service/honeypot-monitor.service
+[Unit]
+Description=Honeypot Monitoring Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/honeypot/monitor.py
+WorkingDirectory=/opt/honeypot
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
