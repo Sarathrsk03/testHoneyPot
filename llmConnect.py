@@ -19,7 +19,15 @@ def readSystemInstruction(type:str ):
     elif type == "xlsx":    
         with open("systemInstructions/xlsx.txt", "r") as f:
             return f.read() 
-
+    elif type == "sqlTable":
+        with open("systemInstructions/sqlTable.txt","r") as f:
+            return f.read()
+    elif type == "sqlData":
+        with open("systemInstructions/sqlData.txt","r") as f:
+            return f.read()
+    elif type == "schemaToQuery":
+        with open("systemInstructions/schemaToQuery.txt","r") as f:
+            return f.read()
 
 load_dotenv()
 
@@ -83,14 +91,38 @@ def generateXLSX(prompt: str):
     )
     return response.text
 
+def generateSqlTableSchema(prompt: str):
+    response = client.models.generate_content(
+        model='gemini-2.0-flash-exp', contents=prompt,
+        config=types.GenerateContentConfig(system_instruction=readSystemInstruction("sqlTable"),response_mime_type='application/json',temperature=0)
+    )
+    return response.text
+
+def generateSQlTableData(prompt: str):
+    response = client.models.generate_content(
+        model='gemini-2.0-flash-exp', contents=prompt,
+        config=types.GenerateContentConfig(system_instruction=readSystemInstruction("sqlData"),response_mime_type='application/json',temperature=0)
+    )
+    return response.text
+
+def generateSQlTableToQuery(schema: str):
+    response = client.models.generate_content(
+        model='gemini-2.0-flash-exp', contents=schema,
+        config=types.GenerateContentConfig(system_instruction=readSystemInstruction("schemaToQuery"),temperature=0)
+    )
+    return response.text
+
 
 
 #generatePPT()
 #generateDocx()
 
 if __name__ == "__main__":
-    prompt = "Company name: Apple, Role: COO, Industry: Technology"
+    #prompt = "Company name: Apple, Role: COO, Industry: Technology"
     #generatePPT()
     #print(generateDocx(prompt))
-    print(generatePrompt(prompt))
+    #print(generatePrompt(prompt))
+    prompt = "Create a sql table which showcases all the customer details"
+    resposnse = generateSqlTableSchema(prompt)
+    print(generateSQlTableData(resposnse))
     
