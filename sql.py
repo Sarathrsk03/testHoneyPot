@@ -15,7 +15,8 @@ try:
             host=environ.get("MYSQL_HOST"),
             user=environ.get("MYSQL_USER"),
             password=environ.get("MYSQL_PASSWORD"),
-            database=environ.get("MYSQL_DATABASE")
+            database=environ.get("MYSQL_DATABASE"),
+            ssl_disabled=True
         )
 
         cursorObject = database.cursor()
