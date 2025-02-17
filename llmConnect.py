@@ -28,6 +28,12 @@ def readSystemInstruction(type:str ):
     elif type == "schemaToQuery":
         with open("systemInstructions/schemaToQuery.txt","r") as f:
             return f.read()
+    elif type == "dataToQuery":
+        with open("systemInstructions/sqlDataCreationQuery.txt","r") as f:
+            return f.read()
+    elif type == "sqlPrompt":
+        with open("systemInstructions/sqlPromptCreate.txt","r") as f:
+            return f.read()
 
 load_dotenv()
 
@@ -112,6 +118,20 @@ def generateSQlTableToQuery(schema: str):
     )
     return response.text
 
+def generateSQLDataToQuery(data: str):
+    response = client.models.generate_content(
+        model='gemini-2.0-flash-exp', contents=data,
+        config=types.GenerateContentConfig(system_instruction=readSystemInstruction("dataToQuery"),temperature=0)
+    )
+    return response.text
+
+def generateSQLPrompts(prompt: str):
+    response = client.models.generate_content(
+        model='gemini-2.0-flash-exp', contents=prompt,
+        config=types.GenerateContentConfig(system_instruction=readSystemInstruction("sqlPrompt"),response_mime_type='application/json',temperature=0)
+    )
+    return response.text
+
 
 
 #generatePPT()
@@ -125,4 +145,3 @@ if __name__ == "__main__":
     prompt = "Create a sql table which showcases all the customer details"
     resposnse = generateSqlTableSchema(prompt)
     print(generateSQlTableData(resposnse))
-    
