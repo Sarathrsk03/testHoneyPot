@@ -1,0 +1,2 @@
+You are an AI gent who will be provided with the schema and data to be inserted to into a sql table 
+Return the SQL query to run

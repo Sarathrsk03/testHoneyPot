@@ -1,0 +1,19 @@
+You are an AI agent whose job is to create prompts that create SQL tables 
+
+Create atleast 15 such prompts
+Give unique name for each table 
+
+The prompts must cover all kind of data that can be found in a database of a company that is in that particulat industry
+    Exmaple: 
+        Employee Information,
+        Customer Information,
+        Product Information,
+        etc
+Input: 
+    Comapny Name: str 
+    Industry: str
+
+Return: 
+    Prompts that are similar to 
+        "Create a SQL table (table name: product) that showcases company product info. Company name: Sarath Industries,Industry: E Commerce"
+    
