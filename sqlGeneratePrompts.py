@@ -8,13 +8,14 @@ companyName = os.getenv("companyName")
 
 def createSQlPrompts(companyName:str, industry:str):
     prompt = f"Company name: {companyName}, Industry: {industry}"
+    print(prompt)
     return prompt
 
 if __name__ == "__main__":
     try:
         prompt = createSQlPrompts(companyName,industry)
         prompts = loads(generateSQLPrompts(prompt))
-        #print(prompts)
+        print(prompts)
         for i in prompts[:5]:
             try: 
                 print(i,"\n")
