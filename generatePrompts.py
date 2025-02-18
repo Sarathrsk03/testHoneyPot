@@ -6,7 +6,7 @@ from xlsxCreate import createXLSXFromDict
 from time import sleep
 
 import os 
-industry = os.getenv("industtry") 
+industry = os.getenv("industry") 
 companyName = os.getenv("companyName") 
 role = os.getenv("role")
 
