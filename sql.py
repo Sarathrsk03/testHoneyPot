@@ -56,6 +56,7 @@ def addDataToSQLTable(data: list[list],schema:list[dict]):
 
 def createTableAndInsertData(prompt:str):
     schema = getPromptSchema(prompt)
+    print(schema)
     data = getPromptData(str(schema))
     query = getSQLQueryFromSchema(str(schema))
     dataQuery = addDataToSQLTable(data,schema)
