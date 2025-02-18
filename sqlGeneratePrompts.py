@@ -3,7 +3,7 @@ from llmConnect import generateSQLPrompts
 from json import loads
 
 import os 
-industry = os.getenv("industtry") 
+industry = os.getenv("industry") 
 companyName = os.getenv("companyName") 
 
 def createSQlPrompts(companyName:str, industry:str):
