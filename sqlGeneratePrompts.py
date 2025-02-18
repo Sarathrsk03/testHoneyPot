@@ -1,6 +1,7 @@
 from sql import createTableAndInsertData
 from llmConnect import generateSQLPrompts
 from json import loads
+from time import sleep
 
 import os 
 industry = os.getenv("industry") 
@@ -17,6 +18,7 @@ if __name__ == "__main__":
         prompts = loads(generateSQLPrompts(prompt))
         print(prompts)
         for i in prompts[:5]:
+            sleep(5)
             try: 
                 print(i,"\n")
                 createTableAndInsertData(i)
