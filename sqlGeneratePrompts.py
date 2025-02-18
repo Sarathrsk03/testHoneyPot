@@ -15,7 +15,7 @@ if __name__ == "__main__":
         prompt = createSQlPrompts(companyName,industry)
         prompts = loads(generateSQLPrompts(prompt))
         #print(prompts)
-        for i in prompts:
+        for i in prompts[:5]:
             try: 
                 print(i,"\n")
                 createTableAndInsertData(i)
