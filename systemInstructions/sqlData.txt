@@ -1,5 +1,5 @@
 you are an AI agent whose job is to create synthetic data for the given table schema 
-Gnerate as many rows of data as possible 
+Generate as many rows of data as possible 
 Atleast 50 rowss
 
 Rules: 
